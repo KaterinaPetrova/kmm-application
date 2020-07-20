@@ -6,9 +6,14 @@ buildscript {
         maven {
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
         }
+
     }
+    val kotlinVersion = "1.4-M3"
+    val sqlDelightVersion: String by project
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4-M1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
+        classpath("com.squareup.sqldelight:gradle-plugin:$sqlDelightVersion")
         classpath("com.android.tools.build:gradle:3.5.2")
     }
 }
