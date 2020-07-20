@@ -2,7 +2,9 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization")
     id("com.android.library")
+    id("com.squareup.sqldelight")
 }
 group = "com.jetbrains.handson.kmm"
 version = "1.0-SNAPSHOT"
@@ -25,33 +27,38 @@ kotlin {
             }
         }
     }
+    val ktorVersion = "1.3.2-1.4-M3"
+    val coroutinesVersion = "1.3.7-1.4-M3"
+    val serializationVersion = "0.20.0-1.4-M3"
+    val sqlDelightVersion: String by project
+
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion")
+                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+                implementation("com.squareup.sqldelight:runtime:$sqlDelightVersion")
             }
         }
         val androidMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk7"))
-                implementation("com.jaredrummler:android-device-names:1.1.9")
+                implementation("io.ktor:ktor-client-android:$ktorVersion")
+                implementation("com.squareup.sqldelight:android-driver:$sqlDelightVersion")
             }
         }
-        val androidTest by getting {
+        val iosMain by getting {
             dependencies {
-                implementation("junit:junit:4.12")
+                implementation("io.ktor:ktor-client-ios:$ktorVersion")
+                implementation("com.squareup.sqldelight:native-driver:$sqlDelightVersion")
             }
         }
-        val iosMain by getting
-        val iosTest by getting
     }
 }
+
 android {
     compileSdkVersion(29)
     defaultConfig {
