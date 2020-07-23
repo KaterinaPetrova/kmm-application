@@ -58,6 +58,13 @@ kotlin {
     }
 }
 
+sqldelight {
+    database("AppDatabase") {
+        packageName = "com.jetbrains.handson.kmm.sdk.database"
+    }
+}
+
+
 android {
     compileSdkVersion(29)
     defaultConfig {
